@@ -1,0 +1,9 @@
+version: 2
+jobs:
+   build:
+      working_directory: ~/security_app_build
+	  docker:
+	     - image: java:8
+	  steps:
+	     - checkout
+	  
