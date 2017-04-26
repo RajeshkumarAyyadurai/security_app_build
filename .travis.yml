@@ -3,5 +3,6 @@ jdk:
 - oraclejdk8
 script:
 - mvn clean package
-addons:
-  artifacts: true
+after_script:
+- echo "Hello"
+- pwd
