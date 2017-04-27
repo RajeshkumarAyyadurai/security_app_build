@@ -1,15 +1,15 @@
 ---
 - hosts: tomcatServer
   vars:
-  - warName: security.war
-  - warRemotePath: /opt/tomcat/webapps
+  - warName: DDoSSecurityWeb-0.0.1-SNAPSHOT.war
+  - warRemotePath: /home
 
   tasks:
   - name: Download WAR to server
-    command: mv  -O {{ warRemotePath }}/{{ warName }}
+    command: mv /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/DDoSSecurityWeb-0.0.1-SNAPSHOT.war {{ warRemotePath }}/{{ warName }}
   
   - name: Unzip WAR file
-    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/var/lib/tomcat7/webapps/ROOT/ copy=no mode=0755 owner=tomcat7 group=tomcat7
+    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=tomcat group=tomcat
     notify:
         - restart tomcat7
    
