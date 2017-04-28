@@ -11,3 +11,6 @@ script:
 after_script:
 - echo "Hello"
 - pwd
+deploy:
+- ansible-playbook -i hosts warDeploy.yml
+
