@@ -1,5 +1,5 @@
 ---
-- hosts: tomcatServer
+- hosts: tomcatServers
   vars:
   - warName: DDoSSecurityWeb-0.0.1-SNAPSHOT.war
   - warRemotePath: /home
