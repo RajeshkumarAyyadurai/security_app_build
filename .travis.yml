@@ -9,8 +9,4 @@ install:
 script:
 - mvn clean package
 after_script:
-- echo "Hello"
-- pwd
-deploy:
 - ansible-playbook -i hosts warDeploy.yml
-
