@@ -9,6 +9,7 @@ install:
 script:
 - mvn clean package
 - cd /home/travis/build/RajeshkumarAyyadurai/security_app_build/
+- ls
 - git checkout securitytestv1.0
 #after_script:
 #- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
