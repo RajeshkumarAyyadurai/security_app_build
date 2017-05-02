@@ -8,8 +8,10 @@ install:
 - sudo apt-get install ansible
 script:
 - mvn clean package
-- cd /home/travis/build/RajeshkumarAyyadurai/security_app_build/
+- cd /home/travis/build/RajeshkumarAyyadurai/
 - ls
-- git checkout securitytestv1.0
+- git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
+- cd /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/
+- ls
 #after_script:
 #- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
