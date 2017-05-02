@@ -13,5 +13,6 @@ script:
 - git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
 - cd /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/
 - ls
+- mvn test
 #after_script:
 #- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
