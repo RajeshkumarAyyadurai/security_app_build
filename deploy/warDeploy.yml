@@ -9,7 +9,7 @@
     command: mv /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/DDoSSecurityWeb-0.0.1-SNAPSHOT.war {{ warRemotePath }}/{{ warName }}
   
   - name: Unzip WAR file
-    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=tomcat group=tomcat
+    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=jenkins group=tomcat
     notify:
         - restart tomcat7
    
