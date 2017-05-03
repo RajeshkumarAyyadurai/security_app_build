@@ -12,6 +12,8 @@ script:
 - ls
 - git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
 - cd /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/
+- ls -l /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
+- chmod 755 /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
 - ls
 - mvn test
 #after_script:
