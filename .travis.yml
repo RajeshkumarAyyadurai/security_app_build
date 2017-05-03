@@ -16,5 +16,7 @@ script:
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
 - ls
 - mvn test
+notifications:
+  slack: '<sot-neustar>:<hAZy7jMtJpHHnkjpDPDsYIlD>#travis-build'
 #after_script:
 #- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
