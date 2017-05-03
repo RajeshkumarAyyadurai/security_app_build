@@ -17,6 +17,15 @@ script:
 - ls
 - mvn test
 notifications:
-  slack: sot-neustar:hAZy7jMtJpHHnkjpDPDsYIlD
+  slack:
+    on_failure: always
+    on_success: always
+    rooms:
+    - sot-neustar:hAZy7jMtJpHHnkjpDPDsYIlD
+    template:
+    - "Build(#%{build_number}) triggered by %{author} %{result} in %{duration}"
+    - "Repository/Branch-%{repository}/%{branch}"
+    - "Commit-%{commit_message}"
+    - "Build URL-%{build_url}"
 #after_script:
 #- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
