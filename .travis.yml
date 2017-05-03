@@ -17,6 +17,6 @@ script:
 - ls
 - mvn test
 notifications:
-  slack: '<sot-neustar>:<hAZy7jMtJpHHnkjpDPDsYIlD>#travis-build'
+  slack: sot-neustar:hAZy7jMtJpHHnkjpDPDsYIlD
 #after_script:
 #- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
