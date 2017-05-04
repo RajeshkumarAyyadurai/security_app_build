@@ -1,2 +1,2 @@
 [tomcatServers]
-172.31.26.255 http_port=8088 ansible_ssh_private_key_file=/home/travis/build/RajeshkumarAyyadurai/security_app_build/deploy/tomcat.ppk
+172.31.26.255 ansible_ssh_private_key_file=/home/travis/build/RajeshkumarAyyadurai/security_app_build/deploy/tomcat.pem

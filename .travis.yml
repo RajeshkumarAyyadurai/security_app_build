@@ -16,6 +16,8 @@ script:
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
 - ls
 - mvn test
+after_script:
+- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
 notifications:
   slack:
     on_failure: always
@@ -27,5 +29,3 @@ notifications:
     - "Repository/Branch : %{repository_name}/%{branch}"
     - "Commit : %{commit_message}"
     - "Build URL : %{build_url}"
-#after_script:
-#- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
