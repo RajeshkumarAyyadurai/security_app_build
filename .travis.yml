@@ -17,7 +17,7 @@ script:
 - ls
 - mvn test
 after_success:
-- ansible-playbook -i $TRAVIS_BUILD_DIR/deploy/hosts private-key=$TRAVIS_BUILD_DIR/deploy/tomcat.pem $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
+- ansible-playbook -i private-key=$TRAVIS_BUILD_DIR/deploy/tomcat.pem $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
 notifications:
   slack:
     on_failure: always
