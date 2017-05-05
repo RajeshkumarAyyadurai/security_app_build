@@ -18,6 +18,12 @@ script:
 - mvn test
 - cd /opt/
 - ls
+- cd /etc/
+- ls
+- cd /var/
+- ls
+- cd /lib/
+- ls
 after_success:
 - ansible-playbook -i private-key=$TRAVIS_BUILD_DIR/deploy/tomcat.pem $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
 notifications:
