@@ -21,8 +21,8 @@ script:
 - cd /etc/ansible
 - ls
 - cat ansible.cfg
-- cd hosts
-- cd roles
+- cat hosts
+- cat roles
 - cd /var/
 - ls
 - cd /lib/
