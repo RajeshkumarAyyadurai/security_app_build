@@ -1,2 +1,4 @@
+54.254.182.212 ansible_python_interpreter=/usr/bin/python3
+
 [tomcatServers]
-ansible_host=172.31.26.255
+54.254.182.212

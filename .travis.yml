@@ -6,6 +6,11 @@ install:
 - sudo apt-add-repository -y ppa:ansible/ansible
 - sudo apt-get update
 - sudo apt-get install ansible
+before_script:
+- sudo chmod 755 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
+- mv -f $TRAVIS_BUILD_DIR/deploy/ansible.cfg /etc/ansible/ansible.cfg
+- mv -f $TRAVIS_BUILD_DIR/deploy/hosts /etc/ansible/hosts
+- mv -f $TRAVIS_BUILD_DIR/deploy/warDeploy.yml /etc/ansible/warDeploy.yml
 script:
 - mvn clean package
 - cd /home/travis/build/RajeshkumarAyyadurai/
@@ -16,20 +21,11 @@ script:
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
 - ls
 - mvn test
-- cd /opt/
-- ls
 - cd /etc/ansible
 - ls
-- cat ansible.cfg
-- cat hosts
-- cd roles
-- ls
-- cd /var/
-- ls
-- cd /lib/
-- ls
 after_success:
-- ansible-playbook -i private-key=$TRAVIS_BUILD_DIR/deploy/tomcat.pem $TRAVIS_BUILD_DIR/deploy/hosts $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
+- cd /etc/ansible
+- ansible-playbook warDeploy.yml
 notifications:
   slack:
     on_failure: always

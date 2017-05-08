@@ -1,18 +1,23 @@
----
 - hosts: tomcatServers
+  remote_user: ubuntu
+  become_method: sudo
+  become_user: root
   vars:
-  - warName: DDoSSecurityWeb-0.0.1-SNAPSHOT.war
-  - warRemotePath: /home
-
+    warName: DDoSSecurityWeb-0.0.1-SNAPSHOT.war
+    warRemotePath: /tmp
   tasks:
-  - name: Download WAR to server
-    command: mv /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/DDoSSecurityWeb-0.0.1-SNAPSHOT.war {{ warRemotePath }}/{{ warName }}
-  
+  - copy:
+     src: /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/{{ warName }}
+     dest: /tmp/{{ warName }}
+     owner: ubuntu
+     group: ubuntu
+     mode: 0755
+
   - name: Unzip WAR file
-    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=jenkins group=tomcat
+    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=tomcat group=tomcat
     notify:
         - restart tomcat7
-   
+
   - name: Delete remote war file
     file: path={{ warRemotePath }}/{{ warName }} state=absent
 
