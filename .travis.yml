@@ -7,7 +7,7 @@ install:
 - sudo apt-get update
 - sudo apt-get install ansible
 before_script:
-- sudo chmod 755 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
+- sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
 #- sudo su
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/ansible.cfg
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/ansible.cfg /etc/ansible/ansible.cfg
