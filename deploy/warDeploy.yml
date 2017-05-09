@@ -22,6 +22,9 @@
   - name: Create dir to deploy war
     command: sudo mkdir -p /opt/tomcat/webapps/travis
     
+  - name: Permission to travis dir
+    command: sudo chmod 777 /opt/tomcat/webapps/travis
+    
 #  - name: Enter into travis dir
 #    command: cd /opt/tomcat/webapps/travis/
 
