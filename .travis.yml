@@ -6,6 +6,7 @@ install:
 - sudo apt-add-repository -y ppa:ansible/ansible
 - sudo apt-get update
 - sudo apt-get install ansible
+- sudo apt install unzip
 before_script:
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
 #- sudo su
