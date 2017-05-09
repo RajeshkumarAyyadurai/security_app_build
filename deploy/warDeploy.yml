@@ -29,7 +29,7 @@
 #    command: cd /opt/tomcat/webapps/travis/
 
   - name: Go to the folder and execute command
-    command: unzip -qq /tmp/{{ warName }} -d /opt/tomcat/webapps/travis/
+    command: unzip -qqo /tmp/{{ warName }} -d /opt/tomcat/webapps/travis/
     notify:
         - restart tomcat7
   
@@ -42,5 +42,5 @@
     file: path={{ warRemotePath }}/{{ warName }} state=absent
 
   handlers:
-    - name: Restart tomcat7
+    - name: restart tomcat7
       service: name=tomcat7 state=restarted
