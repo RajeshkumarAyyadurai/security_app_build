@@ -26,12 +26,14 @@
 #    command: cd /opt/tomcat/webapps/travis/
 
   - name: Go to the folder and execute command
-    command: chdir=/opt/tomcat/webapps/travis/
-  
-  - name: Unzip WAR file
-    command: jar -xvf /tmp/{{ warName }}
+    command: chdir=/opt/tomcat/webapps/travis/ jar -xvf /tmp/{{ warName }}
     notify:
         - restart tomcat7
+  
+#  - name: Unzip WAR file
+#    command: jar -xvf /tmp/{{ warName }}
+#    notify:
+#        - restart tomcat7
 
   - name: Delete remote war file
     file: path={{ warRemotePath }}/{{ warName }} state=absent
