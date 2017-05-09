@@ -8,7 +8,7 @@
   tasks:
   - copy:
      src: /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/{{ warName }}
-     dest: /tmp/{{ warName }}
+     dest: {{ warRemotePath }}/{{ warName }}
      owner: ubuntu
      group: ubuntu
      mode: 0755
@@ -16,27 +16,16 @@
   - name: Escalate permission to webapps folder in tomcat
     command: sudo chmod 777 /opt/tomcat/webapps
     
-#  - name: Creates directory
-#    file: path=/opt/tomcat/webapps/travis state=directory owner=tomcat group=tomcat mode=0777
-    
   - name: Create dir to deploy war
     command: sudo mkdir -p /opt/tomcat/webapps/travis
     
   - name: Permission to travis dir
     command: sudo chmod 777 /opt/tomcat/webapps/travis
 
-#  - name: Enter into travis dir
-#    command: cd /opt/tomcat/webapps/travis/
-
   - name: Go to the folder and execute command
-    command: unzip -qqo /tmp/{{ warName }} -d /opt/tomcat/webapps/travis/
+    command: unzip -qqo {{ warRemotePath }}/{{ warName }} -d /opt/tomcat/webapps/travis/
     notify:
         - restart tomcat
-
-#  - name: Unzip WAR file
-#    command: jar -xvf /tmp/{{ warName }}
-#    notify:
-#        - restart tomcat7
 
   - name: Delete remote war file
     file: path={{ warRemotePath }}/{{ warName }} state=absent
