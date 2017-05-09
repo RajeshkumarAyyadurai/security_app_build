@@ -15,9 +15,15 @@
 
   - name: Escalate permission to webapps folder in tomcat
     command: sudo chmod 755 /opt/tomcat/webapps
+    
+  - name: Create dir to deploy war
+    command: sudo mkdir /opt/tomcat/webapps/travis
+    
+  - name: Enter into travis dir
+    command: cd /opt/tomcat/webapps/travis
   
   - name: Unzip WAR file
-    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=tomcat group=tomcat
+    command: jar -xvf /tmp/{{ warName }}
     notify:
         - restart tomcat7
 
