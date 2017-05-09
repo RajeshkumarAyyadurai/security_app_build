@@ -13,6 +13,9 @@
      group: ubuntu
      mode: 0755
 
+  - name: Escalate permission to webapps folder in tomcat
+    command: sudo chmod 755 /opt/tomcat/webapps
+  
   - name: Unzip WAR file
     unarchive: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat/webapps copy=no mode=0755 owner=tomcat group=tomcat
     notify:
