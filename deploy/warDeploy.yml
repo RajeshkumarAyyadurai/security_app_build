@@ -20,7 +20,7 @@
     command: sudo mkdir /opt/tomcat/webapps/travis
     
   - name: Enter into travis dir
-    command: cd /opt/tomcat/webapps/travis
+    command: cd /opt/tomcat/webapps/travis/
   
   - name: Unzip WAR file
     command: jar -xvf /tmp/{{ warName }}
