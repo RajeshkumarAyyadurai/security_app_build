@@ -24,7 +24,7 @@
     
   - name: Permission to travis dir
     command: sudo chmod 777 /opt/tomcat/webapps/travis
-    
+
 #  - name: Enter into travis dir
 #    command: cd /opt/tomcat/webapps/travis/
 
@@ -32,7 +32,7 @@
     command: unzip -qqo /tmp/{{ warName }} -d /opt/tomcat/webapps/travis/
     notify:
         - restart tomcat
-  
+
 #  - name: Unzip WAR file
 #    command: jar -xvf /tmp/{{ warName }}
 #    notify:
@@ -40,7 +40,7 @@
 
   - name: Delete remote war file
     file: path={{ warRemotePath }}/{{ warName }} state=absent
-	
+
   handlers:
     - name: restart tomcat
       service: name=tomcat state=restarted
