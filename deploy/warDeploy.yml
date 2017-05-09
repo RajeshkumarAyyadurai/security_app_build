@@ -8,7 +8,7 @@
   tasks:
   - copy:
      src: /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/{{ warName }}
-     dest: {{ warRemotePath }}/{{ warName }}
+     dest: /tmp/{{ warName }}
      owner: ubuntu
      group: ubuntu
      mode: 0755
@@ -23,7 +23,7 @@
     command: sudo chmod 777 /opt/tomcat/webapps/travis
 
   - name: Go to the folder and execute command
-    command: unzip -qqo {{ warRemotePath }}/{{ warName }} -d /opt/tomcat/webapps/travis/
+    command: unzip -qqo /tmp/{{ warName }} -d /opt/tomcat/webapps/travis/
     notify:
         - restart tomcat
 
