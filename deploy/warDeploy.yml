@@ -14,10 +14,10 @@
      mode: 0755
 
   - name: Escalate permission to webapps folder in tomcat
-    command: sudo chmod 755 /opt/tomcat/webapps
+    command: sudo chmod 777 /opt/tomcat/webapps
     
 #  - name: Creates directory
-#    file: path=/opt/tomcat/webapps/travis state=directory owner=tomcat group=tomcat mode=0775
+#    file: path=/opt/tomcat/webapps/travis state=directory owner=tomcat group=tomcat mode=0777
     
   - name: Create dir to deploy war
     command: sudo mkdir /opt/tomcat/webapps/travis
