@@ -8,13 +8,13 @@ install:
 - sudo apt-get install ansible
 before_script:
 - sudo chmod 755 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
-- sudo su
-- chmod 777 $TRAVIS_BUILD_DIR/deploy/ansible.cfg
-- mv -f $TRAVIS_BUILD_DIR/deploy/ansible.cfg /etc/ansible/ansible.cfg
-- chmod 777 $TRAVIS_BUILD_DIR/deploy/hosts
-- mv -f $TRAVIS_BUILD_DIR/deploy/hosts /etc/ansible/hosts
-- chmod 777 $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
-- mv -f $TRAVIS_BUILD_DIR/deploy/warDeploy.yml /etc/ansible/warDeploy.yml
+#- sudo su
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/ansible.cfg
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/ansible.cfg /etc/ansible/ansible.cfg
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/hosts
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/hosts /etc/ansible/hosts
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/warDeploy.yml /etc/ansible/warDeploy.yml
 script:
 - mvn clean package
 - cd /home/travis/build/RajeshkumarAyyadurai/
