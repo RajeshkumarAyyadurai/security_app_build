@@ -37,13 +37,14 @@ script:
 - ls
 - cd /etc/ansible
 - ls
+- cat hosts
 - cd /etc/ansible/$deploy_dir
 - ls
 
 # Deploys created WAR into AWS EC2 tomcat machine
 after_success:
 - cd /etc/ansible
-- ansible-playbook $deploy_dir/warDeploy.yml
+- ansible-playbook $deploy_dir/warDeploy.yml -i $deploy_dir/hosts
 - sleep 5m
 
 # Checks out QA source code explicitly from github repository
