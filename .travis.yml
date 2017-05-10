@@ -4,7 +4,7 @@ jdk:
 
 env:
   - stage=QA deploy_dir=staging repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
-#  - stage=Production deploy_dir=prod
+  - stage=Production deploy_dir=prod repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
 
 # Development source code would have already checkout from Github repository 
 #as its already implicitly configured as part of travis configuration
