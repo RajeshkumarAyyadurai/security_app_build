@@ -45,11 +45,6 @@ before_script:
 # Executes build actions and creates java package in the form of WAR
 script:
 - mvn clean package
-- cd /home/travis/build/RajeshkumarAyyadurai/
-- ls
-- cd /etc/ansible
-- ls
-- cat hosts
 
 before_deploy:
 - sudo chmod 777 TRAVIS_BUILD_DIR/scripts/deploy.sh
