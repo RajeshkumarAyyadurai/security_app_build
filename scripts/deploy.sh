@@ -1,6 +1,6 @@
 if [ $1 -eq "staging" ]; then
 	cd /etc/ansible
-	ansible-playbook warDeploy.yml
+	ansible-playbook /etc/ansible/staging/warDeploy.yml
 	sleep 5m
 	
 	sudo mkdir /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/
@@ -14,7 +14,7 @@ if [ $1 -eq "staging" ]; then
 	mvn test
 else
 	cd /etc/ansible
-	ansible-playbook warDeploy.yml
+	ansible-playbook /etc/ansible/prod/warDeploy.yml
 	sleep 5m
 	
 	sudo mkdir /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/

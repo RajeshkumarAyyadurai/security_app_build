@@ -21,13 +21,22 @@ before_script:
 # Deployment directory for staging environment
 #- sudo mkdir /etc/ansible/$deploy_dir
 #- sudo chmod 777 /etc/ansible/$deploy_dir
+- sudo rm -f /etc/ansible/ansible.cfg
+- sudo rm -f /etc/ansible/hosts
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg /etc/ansible/ansible.cfg
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts /etc/ansible/hosts
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml /etc/ansible/warDeploy.yml
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg
+- sudo mv -pf $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg /etc/ansible/staging/ansible.cfg
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/hosts
+- sudo mv -pf $TRAVIS_BUILD_DIR/deploy/staging/hosts /etc/ansible/staging/hosts
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml
+- sudo mv -pf $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml /etc/ansible/staging/warDeploy.yml
+
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg
+- sudo mv -pf $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg /etc/ansible/prod/ansible.cfg
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/hosts
+- sudo mv -pf $TRAVIS_BUILD_DIR/deploy/prod/hosts /etc/ansible/prod/hosts
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml
+- sudo mv -pf $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml /etc/ansible/prod/warDeploy.yml
  
 # Executes build actions and creates java package in the form of WAR
 script:
