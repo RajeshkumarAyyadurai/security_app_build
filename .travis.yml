@@ -25,7 +25,7 @@ before_script:
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/hosts /etc/ansible/hosts
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/warDeploy.yml /etc/ansible/warDeploy.yml
-
+ 
 # Executes build actions and creates java package in the form of WAR
 script:
 - mvn clean package
@@ -35,13 +35,13 @@ script:
 - ls
 
 # Deploys created WAR into AWS EC2 tomcat machine
-deploy:
+after_success:
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
 
 # Checks out QA source code explicitly from github repository
 # Executes funtional integration tests when deployment is success
-after_success:
+after_script:
 - git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
 - cd /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/
 - ls -l /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
@@ -51,13 +51,13 @@ after_success:
 
 # Sends slack notification about the build and its status
 notifications:
-  slack:
-    on_failure: always
-    on_success: always
-    rooms:
-    - sot-neustar:hAZy7jMtJpHHnkjpDPDsYIlD
-    template:
-    - "Build(#%{build_number}) triggered by %{author} %{result} in %{duration}"
-    - "Repository/Branch : %{repository_name}/%{branch}"
-    - "Commit : %{commit_message}"
-    - "Build URL : %{build_url}"
+ slack:
+  on_failure: always
+  on_success: always
+  rooms:
+  - sot-neustar:hAZy7jMtJpHHnkjpDPDsYIlD
+  template:
+  - "Build(#%{build_number}) triggered by %{author} %{result} in %{duration}"
+  - "Repository/Branch : %{repository_name}/%{branch}"
+  - "Commit : %{commit_message}"
+  - "Build URL : %{build_url}"
