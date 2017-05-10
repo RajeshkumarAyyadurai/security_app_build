@@ -20,15 +20,15 @@ install:
 # Adding required privileges to the files before build
 before_script:
 # Deployment directory for staging environment
-- sudo mkdir /etc/ansible/$deploy_dir
-- sudo chmod 777 /etc/ansible/$deploy_dir
+#- sudo mkdir /etc/ansible/$deploy_dir
+#- sudo chmod 777 /etc/ansible/$deploy_dir
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg /etc/ansible/$deploy_dir/ansible.cfg
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg /etc/ansible/ansible.cfg
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts /etc/ansible/$deploy_dir/hosts
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts /etc/ansible/hosts
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml /etc/ansible/$deploy_dir/warDeploy.yml
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml /etc/ansible/warDeploy.yml
  
 # Executes build actions and creates java package in the form of WAR
 script:
@@ -38,13 +38,11 @@ script:
 - cd /etc/ansible
 - ls
 - cat hosts
-- cd /etc/ansible/$deploy_dir
-- ls
 
 # Deploys created WAR into AWS EC2 tomcat machine
 after_success:
 - cd /etc/ansible
-- ansible-playbook $deploy_dir/warDeploy.yml -i $deploy_dir/hosts
+- ansible-playbook warDeploy.yml
 - sleep 5m
 
 # Checks out QA source code explicitly from github repository
