@@ -26,6 +26,4 @@ else
 	chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
 	cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
 	mvn test
-fi
-
-    
+fi    
