@@ -2,8 +2,8 @@ language: java
 jdk:
 - oraclejdk8
 
-env:
-  - stage=QA deploy_dir=staging repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
+#env:
+#  - stage=QA deploy_dir=staging repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
 
 # Development source code would have already checkout from Github repository 
 #as its already implicitly configured as part of travis configuration
@@ -38,24 +38,18 @@ script:
 - ls
 - cat hosts
 
-# Deploys created WAR into AWS EC2 tomcat machine
-after_success:
-- cd /etc/ansible
-- ansible-playbook warDeploy.yml
-- sleep 5m
+before_deploy:
+- sudo chmod 777 TRAVIS_BUILD_DIR/scripts/deploy.sh
 
-# Checks out QA source code explicitly from github repository
-# Executes funtional integration tests when deployment is success
-after_script:
-- sudo mkdir /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/
-- sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/$deploy_dir
-- cd /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/
-- git clone $repo_url
-- cd /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/
-- ls -l /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/lib/drivers/phantomjs
-- chmod 755 /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/lib/drivers/phantomjs
-- cd /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/
-- mvn test
+deploy:
+  - provider: script
+    script: TRAVIS_BUILD_DIR/scripts/deploy.sh staging
+    on:
+      branch: master
+  - provider: script
+    script: TRAVIS_BUILD_DIR/scripts/deploy.sh production
+    on:
+      branch: master
 
 # Sends slack notification about the build and its status
 notifications:
@@ -69,7 +63,3 @@ notifications:
   - "Repository/Branch : %{repository_name}/%{branch}"
   - "Commit : %{commit_message}"
   - "Build URL : %{build_url}"
-  
-matrix:
-  include:
-    env: stage=Production deploy_dir=prod repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
