@@ -1,9 +1,10 @@
 language: java
 jdk:
 - oraclejdk8
-#env:
-#- stage=QA
-#- stage=prod
+
+env:
+- stage=QA
+- stage=prod
 
 # Development source code would have already checkout from Github repository 
 #as its already implicitly configured as part of travis configuration
@@ -38,6 +39,7 @@ script:
 after_success:
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
+- sleep 5m
 
 # Checks out QA source code explicitly from github repository
 # Executes funtional integration tests when deployment is success
