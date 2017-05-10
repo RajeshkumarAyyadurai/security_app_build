@@ -23,6 +23,8 @@ before_script:
 #- sudo chmod 777 /etc/ansible/$deploy_dir
 - sudo rm -f /etc/ansible/ansible.cfg
 - sudo rm -f /etc/ansible/hosts
+- cd /etc/ansible
+- ls
 - sudo mkdir -p /etc/ansible/staging
 - sudo chmod 777 /etc/ansible/staging
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
