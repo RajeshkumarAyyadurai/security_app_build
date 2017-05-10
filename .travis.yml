@@ -42,11 +42,14 @@ after_success:
 # Checks out QA source code explicitly from github repository
 # Executes funtional integration tests when deployment is success
 after_script:
+- sudo mkdir /home/travis/build/RajeshkumarAyyadurai/test_code/
+- sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/test_code
+- cd /home/travis/build/RajeshkumarAyyadurai/test_code/
 - git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
-- cd /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/
-- ls -l /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
-- chmod 755 /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
-- ls
+- cd /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/
+- ls -l /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/lib/drivers/phantomjs
+- chmod 755 /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/lib/drivers/phantomjs
+- cd /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/
 - mvn test
 
 # Sends slack notification about the build and its status
