@@ -1,36 +1,55 @@
 language: java
 jdk:
 - oraclejdk8
+#env:
+#- stage=QA
+#- stage=prod
+
+# Development source code would have already checkout from Github repository 
+#as its already implicitly configured as part of travis configuration
+
+# Installing required libs/softwares which are not already exist in machine
 install:
 - sudo apt-get install software-properties-common
 - sudo apt-add-repository -y ppa:ansible/ansible
 - sudo apt-get update
 - sudo apt-get install ansible
 - sudo apt install unzip
+
+# Adding required privileges to the files before build
 before_script:
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
-#- sudo su
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/ansible.cfg
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/ansible.cfg /etc/ansible/ansible.cfg
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/hosts
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/hosts /etc/ansible/hosts
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/warDeploy.yml /etc/ansible/warDeploy.yml
+
+# Executes build actions and creates java package in the form of WAR
 script:
 - mvn clean package
 - cd /home/travis/build/RajeshkumarAyyadurai/
 - ls
+- cd /etc/ansible
+- ls
+
+# Deploys created WAR into AWS EC2 tomcat machine
+deploy:
+- cd /etc/ansible
+- ansible-playbook warDeploy.yml
+
+# Checks out QA source code explicitly from github repository
+# Executes funtional integration tests when deployment is success
+after_success:
 - git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
 - cd /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/
 - ls -l /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/securitytestv1.0/lib/drivers/phantomjs
 - ls
 - mvn test
-- cd /etc/ansible
-- ls
-after_success:
-- cd /etc/ansible
-- ansible-playbook warDeploy.yml
+
+# Sends slack notification about the build and its status
 notifications:
   slack:
     on_failure: always
