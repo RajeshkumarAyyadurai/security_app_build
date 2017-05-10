@@ -21,47 +21,58 @@ before_script:
 # Deployment directory for staging environment
 #- sudo mkdir /etc/ansible/$deploy_dir
 #- sudo chmod 777 /etc/ansible/$deploy_dir
-- sudo rm -f /etc/ansible/ansible.cfg
-- sudo rm -f /etc/ansible/hosts
-- cd /etc/ansible
-- ls
-- sudo mkdir -p /etc/ansible/staging
-- sudo chmod 777 /etc/ansible/staging
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg /etc/ansible/staging/ansible.cfg
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg /etc/ansible/ansible.cfg
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/hosts
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/hosts /etc/ansible/staging/hosts
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/hosts /etc/ansible/hosts
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml /etc/ansible/staging/warDeploy.yml
-
-- sudo mkdir -p /etc/ansible/prod
-- sudo chmod 777 /etc/ansible/prod
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg /etc/ansible/prod/ansible.cfg
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/hosts
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/hosts /etc/ansible/prod/hosts
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml /etc/ansible/prod/warDeploy.yml
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml /etc/ansible/warDeploy.yml
  
 # Executes build actions and creates java package in the form of WAR
 script:
 - mvn clean package
 
-before_deploy:
-- sudo chmod 777 $TRAVIS_BUILD_DIR/scripts/deploy.sh
+- cd /etc/ansible
+- ansible-playbook warDeploy.yml
+- sleep 5m
 
-deploy:
-  - provider: script
-    skip_cleanup: true
-    script: $TRAVIS_BUILD_DIR/scripts/deploy.sh staging
-    on:
-      branch: master
-  - provider: script
-    skip_cleanup: true
-    script: $TRAVIS_BUILD_DIR/scripts/deploy.sh production
-    on:
-      branch: master  
+- sudo mkdir /home/travis/build/RajeshkumarAyyadurai/staging/
+- sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/staging
+- cd /home/travis/build/RajeshkumarAyyadurai/staging/
+- git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
+- cd /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/
+- ls -l /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/lib/drivers/phantomjs
+- chmod 755 /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/lib/drivers/phantomjs
+- cd /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/
+- mvn test
+
+# Deploys created WAR into AWS EC2 tomcat machine
+after_success:
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg /etc/ansible/ansible.cfg
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/hosts
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/hosts /etc/ansible/hosts
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml /etc/ansible/warDeploy.yml
+
+- cd /home/travis/build/RajeshkumarAyyadurai/security_app_build/
+- mvn clean package
+
+- cd /etc/ansible
+- ansible-playbook warDeploy.yml
+- sleep 5m
+
+- sudo mkdir /home/travis/build/RajeshkumarAyyadurai/prod/
+- sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/prod
+- cd /home/travis/build/RajeshkumarAyyadurai/prod/
+- git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
+- cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
+- ls -l /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
+- chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
+- cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
+- mvn test
+
 
 # Sends slack notification about the build and its status
 notifications:
@@ -75,3 +86,7 @@ notifications:
   - "Repository/Branch : %{repository_name}/%{branch}"
   - "Commit : %{commit_message}"
   - "Build URL : %{build_url}"
+  
+#matrix:
+#  include:
+#    env: stage=Production deploy_dir=prod repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
