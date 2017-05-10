@@ -3,8 +3,8 @@ jdk:
 - oraclejdk8
 
 env:
-- stage=QA
-- stage=prod
+  - stage=QA deploy_dir=staging repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
+#  - stage=Production deploy_dir=prod
 
 # Development source code would have already checkout from Github repository 
 #as its already implicitly configured as part of travis configuration
@@ -19,13 +19,16 @@ install:
 
 # Adding required privileges to the files before build
 before_script:
+# Deployment directory for staging environment
+- sudo mkdir /etc/ansible/$deploy_dir
+- sudo chmod 777 /etc/ansible/$deploy_dir
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/ansible.cfg
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/ansible.cfg /etc/ansible/ansible.cfg
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/hosts
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/hosts /etc/ansible/hosts
-- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/warDeploy.yml
-- sudo mv -f $TRAVIS_BUILD_DIR/deploy/warDeploy.yml /etc/ansible/warDeploy.yml
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/ansible.cfg /etc/ansible/$deploy_dir/ansible.cfg
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/hosts /etc/ansible/$deploy_dir/hosts
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/$deploy_dir/warDeploy.yml /etc/ansible/$deploy_dir/warDeploy.yml
  
 # Executes build actions and creates java package in the form of WAR
 script:
@@ -34,24 +37,26 @@ script:
 - ls
 - cd /etc/ansible
 - ls
+- cd /etc/ansible/$deploy_dir
+- ls
 
 # Deploys created WAR into AWS EC2 tomcat machine
 after_success:
 - cd /etc/ansible
-- ansible-playbook warDeploy.yml
+- ansible-playbook $deploy_dir/warDeploy.yml
 - sleep 5m
 
 # Checks out QA source code explicitly from github repository
 # Executes funtional integration tests when deployment is success
 after_script:
-- sudo mkdir /home/travis/build/RajeshkumarAyyadurai/test_code/
-- sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/test_code
-- cd /home/travis/build/RajeshkumarAyyadurai/test_code/
-- git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
-- cd /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/
-- ls -l /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/lib/drivers/phantomjs
-- chmod 755 /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/lib/drivers/phantomjs
-- cd /home/travis/build/RajeshkumarAyyadurai/test_code/securitytestv1.0/
+- sudo mkdir /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/
+- sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/$deploy_dir
+- cd /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/
+- git clone $repo_url
+- cd /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/
+- ls -l /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/lib/drivers/phantomjs
+- chmod 755 /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/lib/drivers/phantomjs
+- cd /home/travis/build/RajeshkumarAyyadurai/$deploy_dir/securitytestv1.0/
 - mvn test
 
 # Sends slack notification about the build and its status

@@ -1,0 +1,4 @@
+52.221.205.160 ansible_python_interpreter=/usr/bin/python3
+
+[tomcatServers]
+52.221.205.160

@@ -1,0 +1,36 @@
+- hosts: tomcatServers
+  remote_user: ubuntu
+  become_method: sudo
+  become_user: root
+  vars:
+    warName: DDoSSecurityWeb-0.0.1-SNAPSHOT.war
+    warRemotePath: /tmp
+  tasks:
+  - copy:
+     src: /home/travis/build/RajeshkumarAyyadurai/security_app_build/target/{{ warName }}
+     dest: /tmp/{{ warName }}
+     owner: ubuntu
+     group: ubuntu
+     mode: 0755
+
+  - name: Escalate permission to webapps folder in tomcat
+    command: sudo chmod 777 /opt/tomcat/webapps
+    
+  - name: Create dir to deploy war
+    command: sudo mkdir -p /opt/tomcat/webapps/travis
+    
+  - name: Permission to travis dir
+    command: sudo chmod 777 /opt/tomcat/webapps/travis
+
+  - name: Go to the folder and execute command
+    command: unzip -qqo /tmp/{{ warName }} -d /opt/tomcat/webapps/travis/
+    notify:
+        - restart tomcat
+
+  - name: Delete remote war file
+    file: path={{ warRemotePath }}/{{ warName }} state=absent
+
+  handlers:
+    - name: restart tomcat
+      become: yes
+      service: name=tomcat state=restarted
