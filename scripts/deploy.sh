@@ -1,5 +1,3 @@
-#!/bin/bash
-
 if [ "$1" = "staging" ]; then
 	cd /etc/ansible
 	ansible-playbook /etc/ansible/staging/warDeploy.yml
