@@ -47,15 +47,15 @@ script:
 - mvn clean package
 
 before_deploy:
-- sudo chmod 777 TRAVIS_BUILD_DIR/scripts/deploy.sh
+- sudo chmod 777 $TRAVIS_BUILD_DIR/scripts/deploy.sh
 
 deploy:
   - provider: script
-    script: TRAVIS_BUILD_DIR/scripts/deploy.sh staging
+    script: $TRAVIS_BUILD_DIR/scripts/deploy.sh staging
     on:
       branch: master
   - provider: script
-    script: TRAVIS_BUILD_DIR/scripts/deploy.sh production
+    script: $TRAVIS_BUILD_DIR/scripts/deploy.sh production
     on:
       branch: master
 
