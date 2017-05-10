@@ -1,6 +1,6 @@
 if [ "$1" = "staging" ]; then
 	cd /etc/ansible
-	ansible-playbook /etc/ansible/staging/warDeploy.yml
+	ansible-playbook /etc/ansible/staging/warDeploy.yml -i /etc/ansible/staging/hosts
 	sleep 5m
 	
 	sudo mkdir /home/travis/build/RajeshkumarAyyadurai/staging/
@@ -14,7 +14,7 @@ if [ "$1" = "staging" ]; then
 	mvn test
 else
 	cd /etc/ansible
-	ansible-playbook /etc/ansible/prod/warDeploy.yml
+	ansible-playbook /etc/ansible/prod/warDeploy.yml -i /etc/ansible/prod/hosts
 	sleep 5m
 	
 	sudo mkdir /home/travis/build/RajeshkumarAyyadurai/prod/
