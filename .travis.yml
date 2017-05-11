@@ -1,26 +1,24 @@
+#Pulls linux machine with JDK installed
 language: java
 jdk:
 - oraclejdk8
 
-#env:
-#  - stage=QA deploy_dir=staging repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
-
-# Development source code would have already checkout from Github repository 
+# Development source code will be checked out from Github repository 
 #as its already implicitly configured as part of travis configuration
 
-# Installing required libs/softwares which are not already exist in machine
+# Installs libs/softwares which are required as pre requisites that are not already exist in machine
 install:
+- echo "************************INSTALLS LIBS/SOFTWARES WHICH ARE REQUIRED AS PRE REQUISITES*******************************"
 - sudo apt-get install software-properties-common
 - sudo apt-add-repository -y ppa:ansible/ansible
 - sudo apt-get update
 - sudo apt-get install ansible
 - sudo apt install unzip
 
-# Adding required privileges to the files before build
+# Adding required privileges to the files before build get triggers
 before_script:
-# Deployment directory for staging environment
-#- sudo mkdir /etc/ansible/$deploy_dir
-#- sudo chmod 777 /etc/ansible/$deploy_dir
+# Staging environment permissions
+- echo "************************BEFORE_SCRIPT:ADDING REQUIRED PRIVILEGES TO THE FILES IN STAGING ENVIRONMENT*******************************"
 - sudo chmod 700 $TRAVIS_BUILD_DIR/deploy/tomcat.pem
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/ansible.cfg /etc/ansible/ansible.cfg
@@ -29,14 +27,20 @@ before_script:
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml /etc/ansible/warDeploy.yml
  
-# Executes build actions and creates java package in the form of WAR
+# Creates WAR, deploys it in tomcat and triggers test against QA environment
 script:
+# Maven build - Staging
+- echo "************************SCRIPT:TRIGGERS MAVEN BUILD - STAGING*******************************"
 - mvn clean package
 
+# Deploys WAR in tomcat - Staging
+- echo "************************SCRIPT:DEPLOYS WAR IN TOMCAT - STAGING*******************************"
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
 - sleep 5m
 
+# Triggers functional test - Staging
+- echo "************************SCRIPT:TRIGGERS FUNCTIONAL TEST - STAGING*******************************"
 - sudo mkdir /home/travis/build/RajeshkumarAyyadurai/staging/
 - sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/staging
 - cd /home/travis/build/RajeshkumarAyyadurai/staging/
@@ -47,8 +51,10 @@ script:
 - cd /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/
 - mvn test
 
-# Deploys created WAR into AWS EC2 tomcat machine
+# Creates WAR, deploys it in tomcat and triggers test against production environment when QA deployment success
 after_success:
+# Adding required privileges to the files before build triggers in production
+- echo "************************AFTER_SUCCESS:ADDING REQUIRED PRIVILEGES TO THE FILES IN PRODUCTION ENVIRONMENT*******************************"
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg /etc/ansible/ansible.cfg
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/hosts
@@ -56,13 +62,19 @@ after_success:
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml /etc/ansible/warDeploy.yml
 
+# Maven build - Production
+- echo "************************AFTER_SUCCESS:TRIGGERS MAVEN BUILD - PRODUCTION*******************************"
 - cd /home/travis/build/RajeshkumarAyyadurai/security_app_build/
 - mvn clean package
 
+# WAR deploy in tomcat - Production
+- echo "************************AFTER_SUCCESS:DEPLOYS WAR IN TOMCAT - PRODUCTION*******************************"
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
 - sleep 5m
 
+# Triggers test against QA environment - Production
+- echo "************************AFTER_SUCCESS:TRIGGERS FUNCTIONAL TEST - PRODUCTION*******************************"
 - sudo mkdir /home/travis/build/RajeshkumarAyyadurai/prod/
 - sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/prod
 - cd /home/travis/build/RajeshkumarAyyadurai/prod/
@@ -72,7 +84,6 @@ after_success:
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
 - cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
 - mvn test
-
 
 # Sends slack notification about the build and its status
 notifications:
@@ -86,7 +97,3 @@ notifications:
   - "Repository/Branch : %{repository_name}/%{branch}"
   - "Commit : %{commit_message}"
   - "Build URL : %{build_url}"
-  
-#matrix:
-#  include:
-#    env: stage=Production deploy_dir=prod repo_url=https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
