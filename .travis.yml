@@ -54,7 +54,7 @@ script:
 # Creates WAR, deploys it in tomcat and triggers test against production environment when QA deployment success
 after_success:
 # Adding required privileges to the files before build triggers in production
-- echo "************************AFTER_SUCCESS:ADDING REQUIRED PRIVILEGES TO THE FILES IN PRODUCTION ENVIRONMENT*******************************"
+- echo "*****AFTER_SUCCESS:ADDING REQUIRED PRIVILEGES TO THE FILES IN PRODUCTION ENVIRONMENT*****"
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/ansible.cfg /etc/ansible/ansible.cfg
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/prod/hosts
@@ -63,22 +63,22 @@ after_success:
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/prod/warDeploy.yml /etc/ansible/warDeploy.yml
 
 # Maven build - Production
-- echo "************************AFTER_SUCCESS:TRIGGERS MAVEN BUILD - PRODUCTION*******************************"
+- echo "*****AFTER_SUCCESS:TRIGGERS MAVEN BUILD - PRODUCTION*****"
 - cd /home/travis/build/RajeshkumarAyyadurai/security_app_build/
 - mvn clean package
 
 # WAR deploy in tomcat - Production
-- echo "************************AFTER_SUCCESS:DEPLOYS WAR IN TOMCAT - PRODUCTION*******************************"
+- echo "*****AFTER_SUCCESS:DEPLOYS WAR IN TOMCAT - PRODUCTION*****"
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
 - sleep 5m
 
 # Triggers test against QA environment - Production
-- echo "************************AFTER_SUCCESS:TRIGGERS FUNCTIONAL TEST - PRODUCTION*******************************"
+- echo "*****AFTER_SUCCESS:TRIGGERS FUNCTIONAL TEST - PRODUCTION*****"
 - sudo mkdir /home/travis/build/RajeshkumarAyyadurai/prod/
 - sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/prod
 - cd /home/travis/build/RajeshkumarAyyadurai/prod/
-- git clone https://github.com/RajeshkumarAyyadurai/securitytestv1.0.git
+- git clone https://github.com/RajeshkumarAyyadurai/securitytest_prod_v1.0.git
 - cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
 - ls -l /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
