@@ -79,10 +79,10 @@ after_success:
 - sudo chmod 777 /home/travis/build/RajeshkumarAyyadurai/prod
 - cd /home/travis/build/RajeshkumarAyyadurai/prod/
 - git clone https://github.com/RajeshkumarAyyadurai/securitytest_prod_v1.0.git
-- cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
-- ls -l /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
-- chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/lib/drivers/phantomjs
-- cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytestv1.0/
+- cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytest_prod_v1.0/
+- ls -l /home/travis/build/RajeshkumarAyyadurai/prod/securitytest_prod_v1.0/lib/drivers/phantomjs
+- chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytest_prod_v1.0/lib/drivers/phantomjs
+- cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytest_prod_v1.0/
 - mvn test
 
 # Sends slack notification about the build and its status
