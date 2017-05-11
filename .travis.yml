@@ -26,6 +26,8 @@ before_script:
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/hosts /etc/ansible/hosts
 - sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml
 - sudo mv -f $TRAVIS_BUILD_DIR/deploy/staging/warDeploy.yml /etc/ansible/warDeploy.yml
+- sudo chmod 777 $TRAVIS_BUILD_DIR/deploy/monit/monitDeploy.yml
+- sudo mv -f $TRAVIS_BUILD_DIR/deploy/monit/monitDeploy.yml /etc/ansible/monitDeploy.yml
  
 # Creates WAR, deploys it in tomcat and triggers test against QA environment
 script:
@@ -50,6 +52,11 @@ script:
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/lib/drivers/phantomjs
 - cd /home/travis/build/RajeshkumarAyyadurai/staging/securitytestv1.0/
 - mvn test
+
+# Deploys mmonit in web server - Staging
+- echo "************************SCRIPT:DEPLOYS MMONIT - STAGING*******************************"
+- cd /etc/ansible
+- ansible-playbook monitDeploy.yml
 
 # Creates WAR, deploys it in tomcat and triggers test against production environment when QA deployment success
 after_success:
@@ -84,6 +91,11 @@ after_success:
 - chmod 755 /home/travis/build/RajeshkumarAyyadurai/prod/securitytest_prod_v1.0/lib/drivers/phantomjs
 - cd /home/travis/build/RajeshkumarAyyadurai/prod/securitytest_prod_v1.0/
 - mvn test
+
+# Deploys mmonit in web server - Production
+- echo "************************SCRIPT:DEPLOYS MMONIT - PRODUCTION*******************************"
+- cd /etc/ansible
+- ansible-playbook monitDeploy.yml
 
 # Sends slack notification about the build and its status
 notifications:

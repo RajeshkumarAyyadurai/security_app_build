@@ -1,0 +1,18 @@
+- hosts: tomcatServers
+  remote_user: ubuntu
+  become_method: sudo
+  become_user: root
+  tasks:
+  - copy:
+     src: /home/travis/build/RajeshkumarAyyadurai/security_app_build/deploy/monit/monitrc
+     dest: /etc/monit/
+     owner: root
+     group: root
+     mode: 0755
+     force: yes
+
+  - name: Escalate permission to monitrc file
+    command: sudo chmod 777 /etc/monit/monitrc
+    
+  - name: Monit reload
+    command: sudo monit reload
