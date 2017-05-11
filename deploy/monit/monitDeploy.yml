@@ -13,7 +13,7 @@
      force: yes
 
   - name: Escalate permission to monitrc file
-    command: sudo chmod 777 /etc/monit/monitrc
+    command: sudo chmod 700 /etc/monit/monitrc
     
   - name: Monit reload
     command: sudo monit reload
