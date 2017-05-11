@@ -5,7 +5,7 @@
   tasks:
   - copy:
      src: /home/travis/build/RajeshkumarAyyadurai/security_app_build/deploy/monit/monitrc
-     dest: /etc/monit/
+     dest: /etc/monit/monitrc
      owner: root
      group: root
      mode: 0755

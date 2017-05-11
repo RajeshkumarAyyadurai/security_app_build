@@ -39,7 +39,7 @@ script:
 - echo "************************SCRIPT:DEPLOYS WAR IN TOMCAT - STAGING*******************************"
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
-- sleep 5m
+- sleep 3m
 
 # Triggers functional test - Staging
 - echo "************************SCRIPT:TRIGGERS FUNCTIONAL TEST - STAGING*******************************"
@@ -78,7 +78,7 @@ after_success:
 - echo "*****AFTER_SUCCESS:DEPLOYS WAR IN TOMCAT - PRODUCTION*****"
 - cd /etc/ansible
 - ansible-playbook warDeploy.yml
-- sleep 5m
+- sleep 3m
 
 # Triggers test against QA environment - Production
 - echo "*****AFTER_SUCCESS:TRIGGERS FUNCTIONAL TEST - PRODUCTION*****"
