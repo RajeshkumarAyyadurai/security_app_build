@@ -200,19 +200,19 @@
   <div class="form-group">
     <label class="control-label col-sm-2" for="name">Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter email">
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Email Id</label>
     <div class="col-sm-10"> 
-      <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+      <input type="email" class="form-control" name="email" id="email" placeholder="Enter password">
     </div>
   </div>
 <div class="form-group">
     <label class="control-label col-sm-2" for="contactnumber">Alias Name</label>
     <div class="col-sm-10"> 
-      <input type="text" class="form-control" name="contactnumber" id="contactnumber" placeholder="Enter alias">
+      <input type="text" class="form-control" name="contactnumber" id="contactnumber" placeholder="Enter password">
     </div>
   </div>
   <!-- test<div class="form-group">
