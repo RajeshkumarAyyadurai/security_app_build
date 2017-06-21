@@ -1,4 +1,4 @@
-54.254.182.212 ansible_python_interpreter=/usr/bin/python3
+13.228.27.227 ansible_python_interpreter=/usr/bin/python3
 
 [tomcatServers]
-54.254.182.212
+13.228.27.227
